@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Users List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <!-- Include CSS files here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-djU8Z3EsSkX8i0TcG5EIjUvl45eUdW9CjNEEdT6tZ7dM4jlaD9HjcF94gMnHzu+MfSzAr/Jux70dcGsLvDpKLw=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/admin/style.css}">
+    <link rel="stylesheet" th:href="@{https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .h1, .h2, .h3, .h4, .h5, .h6
+        {
+            font-family: 'Roboto', sans-serif;
+        }
+        .table thead th
+        {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:replace="~{layoutAdmin::header}"></th:block>
+    <div class="container-fluid page-body-wrapper" style="padding-top:70px">
+        <th:block th:replace="~{layoutAdmin::menu}"></th:block>
+        <!-- Define content specific to this page -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <section layout:fragment="content">
+                    <h1 style="text-align:center">Danh sách tài khoản khách hàng</h1>
+                    <table class="table">
+                        <div class="mb-3">
+                            <a th:href="@{/admin/create}" class="btn btn-success mb-2">Tạo người dùng mới</a>
+                        </div>
+                        <tr>
+<!--                            <th>ID</th>-->
+                            <th>STT</th>
+                            <th>Tên tài khoản</th>
+                            <th>Email</th>
+                            <th>Sđt</th>
+                            <th>Vai trò</th>
+                            <th>Hành động</th>
+                        </tr>
+                        <tbody>
+                        <tr th:each="user, itemStat : ${normalUsers}">
+<!--                            <td th:text="${user.id}"></td>-->
+                            <td th:text="${itemStat.index + 1}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${user.phone}"></td>
+                            <td th:text="${user.rolesAsString}"></td>
+                            <td>
+                                <a th:href="@{/admin/edit/{id}(id=${user.id})}" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color:#ffd83b;font-size:25px;"></i></a>
+                                <a th:href="@{/admin/delete/{id}(id=${user.id})}" class="action-icon" onclick="return confirm('Are you sure you want to delete this receipt product?')"><i class="mdi mdi-delete" style="color:#e75555;font-size:25px;"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <th:block th:replace="~{layoutAdmin::footer}"></th:block>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Include JS files at the end of the body -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/js/admin/vendor.bundle.base.js"></script>
+<script src="/static/js/admin/off-canvas.js"></script>
+<script src="/static/js/admin/hoverable-collapse.js"></script>
+<script src="/static/js/admin/misc.js"></script>
+<script src="/static/js/admin/chart.js"></script>
+<script src="/static/js/admin/dashboard.js"></script>
+<script src="/static/js/admin/todolist.js"></script>
+<script src="/static/js/admin/jquery.cookie.js"></script>
+</body>
+</html>

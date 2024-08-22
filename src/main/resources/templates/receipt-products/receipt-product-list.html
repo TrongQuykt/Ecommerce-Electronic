@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Receipt Product List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/admin/style.css}">
+    <link rel="stylesheet" th:href="@{https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .h1, .h2, .h3, .h4, .h5, .h6
+        {
+            font-family: 'Roboto', sans-serif;
+        }
+                .table thead th
+        {
+            font-family: 'Roboto', sans-serif;
+        }
+        .content-wrapper {
+            overflow-x: auto; /* Cho phép cuộn ngang khi nội dung vượt quá kích thước của phần tử */
+            /* white-space: nowrap; */ /* Ngăn chặn việc xuống dòng tự động */
+        }
+    </style>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:replace="~{layoutAdmin::header}"></th:block>
+    <div class="container-fluid page-body-wrapper" style="padding-top:70px">
+        <th:block th:replace="~{layoutAdmin::menu}"></th:block>
+        <!-- Define content specific to this page -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <section layout:fragment="content">
+                    <h1 style="text-align: center">Phiếu nhập hàng</h1>
+                    <div class="mb-3">
+                        <a th:href="@{/receiptproducts/add}" class="btn btn-primary">Thêm phiếu nhập hàng</a>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+<!--                            <th>ID</th>-->
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng nhập</th>
+                            <th>Giá nhập</th>
+                            <th>Ảnh phiếu nhập</th>
+                            <th>Thời gian nhập</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="receiptProduct, itemStat : ${receiptProducts}">
+<!--                            <td th:text="${receiptProduct.id}"></td>-->
+                            <td th:text="${itemStat.index + 1}"></td>
+                            <td th:text="${receiptProduct.product.name}"></td>
+                            <td th:text="${receiptProduct.quantity}"></td>
+                            <td th:text="${receiptProduct.formattedPrice}"></td>
+                            <td>
+                                <img th:src="@{${receiptProduct.image}}" class="img-thumbnail" style="max-width: 100px; max-height: 100px" alt="Image">
+                            </td>
+                            <td th:text="${receiptProduct.createDay}"></td>
+                            <td th:text="${receiptProduct.status == 1 ? 'Hoạt động' : 'Không hoạt động'}"></td>
+                            <td>
+                                <a th:href="@{/receiptproducts/edit/{id}(id=${receiptProduct.id})}" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color:#ffd83b;font-size:25px;"></i></a>
+                                <a th:href="@{/receiptproducts/delete/{id}(id=${receiptProduct.id})}" class="action-icon" onclick="return confirm('Are you sure you want to delete this receipt product?')"><i class="mdi mdi-delete" style="color:#e75555;font-size:25px;"></i></a>
+                                <a th:href="@{/receiptproducts/edit/{id}(id=${receiptProduct.id})}" class="action-icon"><i class="mdi mdi-eye" style="color:#19b6ff;font-size:25px;"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <th:block th:replace="~{layoutAdmin::footer}"></th:block>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Include JS files at the end of the body -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/js/admin/vendor.bundle.base.js"></script>
+<script src="/static/js/admin/off-canvas.js"></script>
+<script src="/static/js/admin/hoverable-collapse.js"></script>
+<script src="/static/js/admin/misc.js"></script>
+<script src="/static/js/admin/chart.js"></script>
+<script src="/static/js/admin/dashboard.js"></script>
+<script src="/static/js/admin/todolist.js"></script>
+<script src="/static/js/admin/jquery.cookie.js"></script>
+</body>
+</html>

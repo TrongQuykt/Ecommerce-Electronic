@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Transaction List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Include CSS files here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-djU8Z3EsSkX8i0TcG5EIjUvl45eUdW9CjNEEdT6tZ7dM4jlaD9HjcF94gMnHzu+MfSzAr/Jux70dcGsLvDpKLw=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/admin/style.css}">
+    <link rel="stylesheet" th:href="@{https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .h1, .h2, .h3, .h4, .h5, .h6
+        {
+            font-family: 'Roboto', sans-serif;
+        }
+            .content-wrapper {
+            overflow-x: auto; /* Cho phép cuộn ngang khi nội dung vượt quá kích thước của phần tử */
+            /* white-space: nowrap; */ /* Ngăn chặn việc xuống dòng tự động */
+        }
+    </style>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:replace="~{layoutAdmin::header}"></th:block>
+    <div class="container-fluid page-body-wrapper" style="padding-top:70px">
+        <th:block th:replace="~{layoutAdmin::menu}"></th:block>
+        <!-- Define content specific to this page -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <section layout:fragment="content">
+                    <div class="container">
+                        <h2 class="text-center">Giao dịch hoàn tất</h2>
+                        <p>
+                            <a href="https://sandbox.vnpayment.vn/merchantv2/Home/Dashboard.htm" target="_blank"
+                               class="btn btn-success mb-2">Xem chi tiết</a>
+                        </p>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Payment ID</th>
+                                <th>Order ID</th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Hình thức thanh toán</th>
+                                <th>Tổng tiền</th>
+                                <th>Thời gian</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="payment, count : ${completedPayments}">
+                                <td th:text="${count.count}"></td>
+                                <td th:text="${payment.id}"></td>
+                                <td th:text="${payment.order.id}"></td>
+                                <td th:text="${payment.order.user.username}"></td>
+                                <td th:text="${payment.order.user.email}"></td>
+                                <td th:text="${payment.order.user.phone}"></td>
+                                <td th:text="${payment.paymentMethod.name}"></td>
+                                <td th:text="${payment.getFormattedPrice}"></td>
+                                <td th:text="${#dates.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
+                                <td>
+                                    <span th:if="${payment.order.status == 2}">Chờ cửa hàng xác nhận</span>
+                                    <span th:if="${payment.order.status == 3}">Đang vận chuyển</span>
+                                    <span th:if="${payment.order.status == 4}">Đã nhận</span>
+                                    <span th:if="${payment.order.status == 5}">Đã hủy</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <th:block th:replace="~{layoutAdmin::footer}"></th:block>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Include JS files at the end of the body -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/js/admin/vendor.bundle.base.js"></script>
+<script src="/static/js/admin/off-canvas.js"></script>
+<script src="/static/js/admin/hoverable-collapse.js"></script>
+<script src="/static/js/admin/misc.js"></script>
+<script src="/static/js/admin/chart.js"></script>
+<script src="/static/js/admin/dashboard.js"></script>
+<script src="/static/js/admin/todolist.js"></script>
+<script src="/static/js/admin/jquery.cookie.js"></script>
+</body>
+</html>
